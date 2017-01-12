@@ -12,6 +12,8 @@
 
 #include "PageStartScreen.h"
 #include "PageNewHero.h"
+#include "Dependencies.h"
+#include "QmlConfig.h"
 
 QQuickWindow* windowPtr = nullptr;
 QQmlApplicationEngine* enginePtr = nullptr;
@@ -67,16 +69,9 @@ void LoadQmlConfigurations()
         return variantMap;
     };
 
-    //TODO READ FROM CONFIG FILE
-    QVariantList races = {"Human", "Orc", "Elf", "Dwarf", "Dark Elf"};
-    QVariantList classes = {"Paladin", "Warrior", "Archer", "Magician", "Druid", "Rogue", "Priest", "Warlock", "Elder"};
-    QVariantList abilities = {"Power Shot", "Power Arrow", "Power Ice", "Power Fire", "LOL", "IMBA",
-    "DONT PICK ME", "Newbie", "Trash","Ultimate", "Electricity", "Fire", "Ice", "Dawn", "Dog",
-    "Cat", "Dummy", "Word", "Hunger", "Col", "Reel", "Heart", "Sun", "Kiss", "Love"};
-
-    QVariantList racesMap = fillVariantMap("race", races);
-    QVariantList classesMap = fillVariantMap("class", classes);
-    QVariantList abilitiesMap = fillVariantMap("abilities", abilities);
+    QVariantList racesMap = fillVariantMap("race", QmlConfig::races);
+    QVariantList classesMap = fillVariantMap("class", QmlConfig::classes);
+    QVariantList abilitiesMap = fillVariantMap("abilities", QmlConfig::abilities);
 
     auto cppPtr = mapQmlCpp.at("Page_NewHero").CppPtr;
     dynamic_cast<PageNewHero*>(cppPtr)->setRaces( racesMap );
@@ -119,3 +114,33 @@ std::map<std::string, qmlCppObject> &GetMapQmlCpp()
     return mapQmlCpp;
 }
 
+void ConnectSignals()
+{
+    auto startScreenCppPtr = GetMapQmlCpp().at("Page_StartScreen").CppPtr;
+    auto startScreenQmlPtr = GetMapQmlCpp().at("Page_StartScreen").QmlPtr;
+
+    QObject::connect(startScreenQmlPtr, SIGNAL(signalNewGame()),
+                     startScreenCppPtr, SLOT(slotNewGame()));
+
+    QObject::connect(startScreenQmlPtr, SIGNAL(signalLoadGame()),
+                     startScreenCppPtr, SLOT(slotLoadGame()));
+
+
+    auto newHeroCppPtr = GetMapQmlCpp().at("Page_NewHero").CppPtr;
+    auto newHeroQmlPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
+
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnRaceSelect(QString)),
+                     newHeroCppPtr, SLOT(slotOnRaceSelected(QString)));
+
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnClassSelect(QString)),
+                     newHeroCppPtr, SLOT(slotOnClassSelected(QString)));
+
+    QObject::connect(newHeroCppPtr, SIGNAL(signalSetRaces(QVariant)),
+                     newHeroQmlPtr, SIGNAL(signalSetRaces(QVariant)));
+
+    QObject::connect(newHeroCppPtr, SIGNAL(signalSetClasses(QVariant)),
+                     newHeroQmlPtr, SIGNAL(signalSetClasses(QVariant)));
+
+    QObject::connect(newHeroCppPtr, SIGNAL(signalSetAbilities(QVariant)),
+                     newHeroQmlPtr, SIGNAL(signalSetAbilities(QVariant)));
+}

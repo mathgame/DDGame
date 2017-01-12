@@ -17,6 +17,8 @@ public:
 
 void InitQmlCpp();
 void LoadQmlConfigurations();
+void ConnectSignals();
+
 void SetVisiblePage(const std::string& pageName);
 
 QQuickWindow* GetWindowPtr();

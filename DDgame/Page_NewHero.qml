@@ -25,20 +25,22 @@ Rectangle
         gridAbilities.model = abilities
     }
 
+    signal signalOnClassSelect( string selectedClass )
+    signal signalOnRaceSelect( string selectedRace )
 ///////////////////////////////// NAME INSERT FIELD ///////////////////////////
     Text
     {
         id: textName
-        x: 173
-        y: 109
+        x: 129
+        y: 83
         text: qsTr("Name: ")
         font.pixelSize: 18
     }
 
     Rectangle
     {
-        x: 278
-        y: 110
+        x: 234
+        y: 84
         width: 165
         height: 20
         color: "#f0d3d3"
@@ -59,8 +61,8 @@ Rectangle
         id: contactDelegateRace
         Item
         {
-            width: gridClass.cellWidth;
-            height: gridClass.cellHeight;
+            width: gridRaces.cellWidth;
+            height: gridRaces.cellHeight;
             Rectangle
             {
                 anchors.fill: parent
@@ -74,15 +76,24 @@ Rectangle
                     color: "black";
                     font.pixelSize: 18
                 }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        console.log( modelData.race )
+                        signalOnRaceSelect( modelData.race )
+                    }
+                }
             }
         }
     }
 
     Text
     {
-        id: raceClass
-        x: 173
-        y: 155
+        id: textRace
+        x: 129
+        y: 129
         text: qsTr("Race:")
         font.pixelSize: 18
     }
@@ -90,9 +101,9 @@ Rectangle
     GridView
     {
         id: gridRaces
-        x: 278
-        y: 155
-        width: 800
+        x: 234
+        y: 129
+        width: 756
         height: 100
         cellWidth: 150
         cellHeight: 25
@@ -112,13 +123,22 @@ Rectangle
                 anchors.fill: parent
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
-                color: "light green"
+                color: "red"
                 Text
                 {
                     anchors.centerIn: parent
                     text: modelData.class
                     color: "black";
                     font.pixelSize: 18
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        console.log( modelData.class )
+                        signalOnClassSelect( modelData.class )
+                    }
                 }
             }
         }
@@ -127,8 +147,8 @@ Rectangle
     Text
     {
         id: textClass
-        x: 173
-        y: 222
+        x: 129
+        y: 243
         text: qsTr("Class:")
         font.pixelSize: 18
     }
@@ -137,9 +157,9 @@ Rectangle
     {
         id: gridClass
 
-        x: 278
-        y: 222
-        width: 800
+        x: 234
+        y: 243
+        width: 756
         height: 100
         cellWidth: 150
         cellHeight: 25
@@ -159,7 +179,7 @@ Rectangle
                 anchors.fill: parent
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
-                color: "light green"
+                color: "green"
                 Text
                 {
                     anchors.centerIn: parent
@@ -174,8 +194,8 @@ Rectangle
     Text
     {
         id: textAbilities
-        x: 173
-        y: 288
+        x: 129
+        y: 359
         text: qsTr("Abilities:")
         font.pixelSize: 18
     }
@@ -183,9 +203,9 @@ Rectangle
     GridView
     {
         id: gridAbilities
-        x: 278
-        y: 288
-        width: 800
+        x: 234
+        y: 359
+        width: 756
         height: 100
         cellWidth: 150
         cellHeight: 25

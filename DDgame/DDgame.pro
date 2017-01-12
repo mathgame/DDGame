@@ -7,7 +7,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     PageNewHero.cpp \
     PageStartScreen.cpp \
-    QmlCppCoordinator.cpp
+    QmlCppCoordinator.cpp \
+    Dependencies.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,4 +24,6 @@ HEADERS += \
     QtMacros.h \
     PageNewHero.h \
     PageStartScreen.h \
-    QmlCppCoordinator.h
+    QmlCppCoordinator.h \
+    QmlConfig.h \
+    Dependencies.h
