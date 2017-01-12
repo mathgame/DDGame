@@ -57,16 +57,23 @@ Rectangle
     Component
     {
         id: contactDelegateRace
-        Rectangle
+        Item
         {
-            width: grid.cellWidth;
-            height: grid.cellHeight;
-            color: "yellow";
-            Text
+            width: gridClass.cellWidth;
+            height: gridClass.cellHeight;
+            Rectangle
             {
-                text: modelData.race
-                color: "black";
-                font.pixelSize: 18
+                anchors.fill: parent
+                anchors.rightMargin: 5
+                anchors.topMargin: 5
+                color: "light green"
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: modelData.race
+                    color: "black";
+                    font.pixelSize: 18
+                }
             }
         }
     }
@@ -96,16 +103,23 @@ Rectangle
     Component
     {
         id: contactDelegateClass
-        Rectangle
+        Item
         {
-            width: grid.cellWidth;
-            height: grid.cellHeight;
-            color: "red";
-            Text
+            width: gridClass.cellWidth;
+            height: gridClass.cellHeight;
+            Rectangle
             {
-                text: modelData.class
-                color: "black";
-                font.pixelSize: 18
+                anchors.fill: parent
+                anchors.rightMargin: 5
+                anchors.topMargin: 5
+                color: "light green"
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: modelData.class
+                    color: "black";
+                    font.pixelSize: 18
+                }
             }
         }
     }
@@ -122,6 +136,7 @@ Rectangle
     GridView
     {
         id: gridClass
+
         x: 278
         y: 222
         width: 800
@@ -135,16 +150,23 @@ Rectangle
     Component
     {
         id: contactDelegateAbilities
-        Rectangle
+        Item
         {
-            width: grid.cellWidth;
-            height: grid.cellHeight;
-            color: "red";
-            Text
+            width: gridClass.cellWidth;
+            height: gridClass.cellHeight;
+            Rectangle
             {
-                text: modelData.abilities
-                color: "black";
-                font.pixelSize: 18
+                anchors.fill: parent
+                anchors.rightMargin: 5
+                anchors.topMargin: 5
+                color: "light green"
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: modelData.abilities
+                    color: "black";
+                    font.pixelSize: 18
+                }
             }
         }
     }

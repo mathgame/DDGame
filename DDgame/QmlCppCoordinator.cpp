@@ -70,9 +70,9 @@ void LoadQmlConfigurations()
     //TODO READ FROM CONFIG FILE
     QVariantList races = {"Human", "Orc", "Elf", "Dwarf", "Dark Elf"};
     QVariantList classes = {"Paladin", "Warrior", "Archer", "Magician", "Druid", "Rogue", "Priest", "Warlock", "Elder"};
-    QVariantList abilities = {"Power Shot", "Power Arrow", "Power Ice", "Power Fire", "LOL", "IMBA", "DONT PICK ME", "Newbie", "Trash"
-                        "Ultimate", "Electricity", "Fire", "Ice", "Dawn", "Dog", "Cat", "Dummy", "Word", "Hunger",
-                        "Col", "Reel", "Heart", "Sun", "Kiss", "Love"};
+    QVariantList abilities = {"Power Shot", "Power Arrow", "Power Ice", "Power Fire", "LOL", "IMBA",
+    "DONT PICK ME", "Newbie", "Trash","Ultimate", "Electricity", "Fire", "Ice", "Dawn", "Dog",
+    "Cat", "Dummy", "Word", "Hunger", "Col", "Reel", "Heart", "Sun", "Kiss", "Love"};
 
     QVariantList racesMap = fillVariantMap("race", races);
     QVariantList classesMap = fillVariantMap("class", classes);
