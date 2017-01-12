@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Page_NewHero.qml</file>
+        <file>Page_StartScreen.qml</file>
+    </qresource>
+</RCC>
