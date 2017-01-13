@@ -7,6 +7,7 @@ CMainMenuItem::CMainMenuItem(QObject *parent)
     , m_sDescription("")
     , m_bEnabled(false)
     , m_sColor("white")
+    , m_bSelected(false)
 {
 }
 
@@ -69,7 +70,17 @@ void CMainMenuItem::SetColor(const QString &sColor)
     emit signalColorChanged();
 }
 
+void CMainMenuItem::SetSelected(bool value)
+{
+    m_bSelected = value;
+}
+
 QString CMainMenuItem::GetColor() const
 {
     return m_sColor;
+}
+
+bool CMainMenuItem::GetSelected() const
+{
+    return m_bSelected;
 }

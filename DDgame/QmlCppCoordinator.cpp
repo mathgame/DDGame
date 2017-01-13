@@ -16,6 +16,7 @@
 #include "QmlConfig.h"
 #include "ViewModel/MainMenuDataModel.h"
 #include "ViewModel/MainMenuItem.h"
+#include <string>
 
 QQuickWindow* windowPtr = nullptr;
 QQmlApplicationEngine* enginePtr = nullptr;
@@ -65,23 +66,25 @@ void LoadQmlConfigurations()
     CMainMenuDataModel* raceModelData =
              qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("raceModelData"));
 
-    for( const auto& race :  QmlConfig::races)
+    for( const std::string& race :  QmlConfig::races)
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
-        menuItem->SetMenuText(race.toString());
+        menuItem->SetMenuText(race.c_str());
         menuItem->SetEnabled(true);
+        menuItem->SetSelected(false);
         menuItem->SetColor("light green");
         raceModelData->append(menuItem);
-    }
+    }    
 
     CMainMenuDataModel* classModelData =
              qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("classModelData"));
 
-    for( const auto& singleClass :  QmlConfig::classes)
+    for( const std::string& singleClass :  QmlConfig::classes)
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
-        menuItem->SetMenuText(singleClass.toString());
-        menuItem->SetEnabled(true);
+        menuItem->SetMenuText(singleClass.c_str());
+        menuItem->SetEnabled(false);
+        menuItem->SetSelected(false);
         menuItem->SetColor("red");
         classModelData->append(menuItem);
     }
@@ -89,12 +92,13 @@ void LoadQmlConfigurations()
     CMainMenuDataModel* abilitiesModelData =
              qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("abilitiesModelData"));
 
-    for( const auto& ability :  QmlConfig::abilities)
+    for( const std::string& ability :  QmlConfig::abilities)
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
-        menuItem->SetMenuText(ability.toString());
+        menuItem->SetMenuText(ability.c_str());
         menuItem->SetEnabled(false);
-        menuItem->SetColor("green");
+        menuItem->SetSelected(false);
+        menuItem->SetColor("red");
         abilitiesModelData->append(menuItem);
     }
 
@@ -170,19 +174,18 @@ void ConnectSignals()
     auto newHeroCppPtr = GetMapQmlCpp().at("Page_NewHero").CppPtr;
     auto newHeroQmlPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
 
-    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnRaceSelect(QString)),
-                     newHeroCppPtr, SLOT(slotOnRaceSelected(QString)));
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnRaceSelect(int)),
+                     newHeroCppPtr, SLOT(slotOnRaceSelected(int)));
 
-    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnClassSelect(QString)),
-                     newHeroCppPtr, SLOT(slotOnClassSelected(QString)));
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnClassSelect(int)),
+                     newHeroCppPtr, SLOT(slotOnClassSelected(int)));
 
-    QObject::connect(newHeroCppPtr, SIGNAL(signalSetRaces(QVariant)),
-                     newHeroQmlPtr, SIGNAL(signalSetRaces(QVariant)));
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnRaceInfoSelect(int)),
+                     newHeroCppPtr, SLOT(slotOnRaceInfoSelected(int)));
 
-    QObject::connect(newHeroCppPtr, SIGNAL(signalSetClasses(QVariant)),
-                     newHeroQmlPtr, SIGNAL(signalSetClasses(QVariant)));
+    QObject::connect(newHeroCppPtr, SIGNAL(signalSetRaceInfo(QString)),
+                     newHeroQmlPtr, SIGNAL(signalSetRaceInfo(QString)));
 
-    QObject::connect(newHeroCppPtr, SIGNAL(signalSetAbilities(QVariant)),
-                     newHeroQmlPtr, SIGNAL(signalSetAbilities(QVariant)));
+
 }
 

@@ -8,24 +8,24 @@ class PageNewHero : public QObject
 {
     Q_OBJECT
 public slots:
-    void slotOnRaceSelected(QString selectedRace);
-    void slotOnClassSelected(QString selectedClass);
+    void slotOnRaceSelected(int index);
+    void slotOnClassSelected(int index);
+
+
+    void slotOnRaceInfoSelected(int index);
+
 signals:
-    void signalSetRaces( QVariant races );
-    void signalSetClasses( QVariant classes );
-    void signalSetAbilities( QVariant abilities );
-public:
-    //Signals functions
-    void setRaces( QVariant races );
-    void setClasses(QVariant classes );
-    void setAbilities(QVariant abilities );
+    void signalSetRaceInfo(QString selectedRaceInfo);
+
 public:
     PageNewHero();
 
     std::string GetSelectedRace() const;
+    std::string GetSelectedClass() const;
 
 private:
     std::string m_selectedRace;
+    std::string m_selectedClass;
 };
 
 #endif // PAGENEWHERO_H

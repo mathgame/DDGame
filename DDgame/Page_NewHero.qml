@@ -8,26 +8,18 @@ Rectangle
     height: 960
     color: "#fefee6"
 
-    signal signalSetRaces( var races )
-    onSignalSetRaces:
+    property alias selectedInfoText: textInfoField.text
+
+    signal signalOnRaceSelect(int index)
+    signal signalOnClassSelect(int index)
+
+    signal signalOnRaceInfoSelect(int index)
+    signal signalSetRaceInfo(string selectedInfoRace)
+    onSignalSetRaceInfo:
     {
-        gridRaces.model = races
+        pageNewHeroId.selectedInfoText = selectedInfoRace
     }
 
-    signal signalSetClasses( var classes )
-    onSignalSetClasses:
-    {
-        gridClass.model = classes
-    }
-
-    signal signalSetAbilities( var abilities )
-    onSignalSetAbilities:
-    {
-        gridAbilities.model = abilities
-    }
-
-    signal signalOnClassSelect( string selectedClass )
-    signal signalOnRaceSelect( string selectedRace )
 ///////////////////////////////// NAME INSERT FIELD ///////////////////////////
     Text
     {
@@ -86,11 +78,21 @@ Rectangle
                 }
                 MouseArea
                 {
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     anchors.fill: parent
                     onClicked:
                     {
-                        console.log( "race clicked" )
+                        if(mouse.button & Qt.LeftButton)
+                        {
+                            signalOnRaceSelect(index)
+                        }
+                        if(mouse.button & Qt.RightButton)
+                        {
+                            console.log("right button clicked")
+                            signalOnRaceInfoSelect(index)
+                        }
                     }
+
                 }
             }
         }
@@ -110,7 +112,7 @@ Rectangle
         id: gridRaces
         x: 234
         y: 129
-        width: 756
+        width: 650
         height: 100
         cellWidth: 150
         cellHeight: 25
@@ -152,7 +154,7 @@ Rectangle
                     anchors.fill: parent
                     onClicked:
                     {
-                            console.log( "class clicked" )
+                         signalOnClassSelect(index)
                     }
                 }
             }
@@ -174,7 +176,7 @@ Rectangle
 
         x: 234
         y: 243
-        width: 756
+        width: 650
         height: 100
         cellWidth: 150
         cellHeight: 25
@@ -237,12 +239,37 @@ Rectangle
         id: gridAbilities
         x: 234
         y: 359
-        width: 756
-        height: 100
+        width: 650
+        height: 150
         cellWidth: 150
         cellHeight: 25
         model: abilitiesModelData
         delegate: contactDelegateAbilities
+    }
+
+    /////////////////////////////////// INFO FIELD ///////////////////////////
+
+    Rectangle
+    {
+        x: 929
+        y: 129
+        width: 300
+        height: 380
+        color: "yellow"
+        Text
+        {
+            id: textInfoField
+            anchors.fill: parent
+            anchors.topMargin: 20
+            anchors.bottomMargin: 10
+            anchors.leftMargin: 20
+            anchors.rightMargin: 10
+
+            color: "black"
+            font.pointSize:16
+            wrapMode: Text.Wrap
+            text: ""
+        }
     }
 }
 

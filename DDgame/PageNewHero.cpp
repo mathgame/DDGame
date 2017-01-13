@@ -2,72 +2,116 @@
 #include "QmlCppCoordinator.h"
 #include "Dependencies.h"
 #include "QmlConfig.h"
+#include "ViewModel/MainMenuDataModel.h"
+#include <QQUickItem>
+#include <QModelIndex>
 
 PageNewHero::PageNewHero()
     : m_selectedRace("")
-{
-
-}
+    , m_selectedClass("")
+{}
 
 std::string PageNewHero::GetSelectedRace() const
 {
     return m_selectedRace;
 }
 
-void PageNewHero::slotOnRaceSelected(QString selectedRace)
+std::string PageNewHero::GetSelectedClass() const
 {
-    m_selectedRace = selectedRace.toStdString();
+    return m_selectedClass;
+}
 
-    QVariantList availableClasses = Dependencies::GetAvailableClasses( m_selectedRace );
+void PageNewHero::slotOnRaceSelected(int index)
+{
+    auto qmlPageNewHeroPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
 
-    auto fillVariantMap = [](const std::string& keyName,
-        const QVariantList& stringList)
+    //////////////////////////////////// RACE MODEL DATA //////////////////////////////
+    CMainMenuDataModel* raceModelData = qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("raceModelData"));
+
+    if( raceModelData->at(index)->GetSelected() )
     {
-        QVariantList variantMap;
-        for(const auto& str : stringList)
-        {
-            QVariantMap itemMap;
-            itemMap[keyName.c_str()] = str;
-            variantMap.push_back(itemMap);
-        }
-        return variantMap;
-    };
-    QVariantList classesMap = fillVariantMap("class", availableClasses);
-    setClasses(classesMap);
-}
-
-void PageNewHero::slotOnClassSelected(QString selectedClass)
-{
-    auto fillVariantMap = [](const std::string& keyName,
-        const QVariantList& stringList)
+        //This race has been already selected, so we unselect it.
+        m_selectedRace = "";
+        raceModelData->at(index)->SetColor("light green");
+        raceModelData->at(index)->SetSelected(false);
+    }
+    else
     {
-        QVariantList variantMap;
-        for(const auto& str : stringList)
+        m_selectedRace = raceModelData->at(index)->GetMenuText().toStdString();
+
+        for(int i = 0; i < raceModelData->size(); i++)
         {
-            QVariantMap itemMap;
-            itemMap[keyName.c_str()] = str;
-            variantMap.push_back(itemMap);
+            raceModelData->at(i)->SetColor("light green");
+            raceModelData->at(i)->SetSelected(false);
+            raceModelData->update(i);
         }
-        return variantMap;
-    };
+        raceModelData->at(index)->SetColor("white");
+        raceModelData->at(index)->SetSelected(true);
+    }
+    raceModelData->update(index);
 
-    QVariantList abilities = {"When", "I", "Say", "Jump", "You", "Say", "How", "High"};
-    QVariantList abilitiesMap = fillVariantMap("abilities", abilities);
+    //////////////////////////////////// CLASS MODEL DATA //////////////////////////////
+    CMainMenuDataModel* classModelData = qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("classModelData"));
+    const auto& availableClasses = Dependencies::GetAvailableClasses( m_selectedRace );
 
-    setAbilities( abilitiesMap );
+    for(int i = 0; i < classModelData->size(); i++)
+    {
+        std::string className = classModelData->at(i)->GetMenuText().toStdString();
+        auto iterRes = std::find(availableClasses.begin(), availableClasses.end(), className);
+        if( iterRes != availableClasses.end())
+        {
+            classModelData->at(i)->SetColor("light green");
+            classModelData->at(i)->SetEnabled(true);
+        }
+        else
+        {
+            classModelData->at(i)->SetColor("red");
+            classModelData->at(i)->SetEnabled(false);
+        }
+        classModelData->at(i)->SetSelected(false);
+        classModelData->update(i);
+    }
 }
 
-void PageNewHero::setRaces(QVariant races)
+void PageNewHero::slotOnClassSelected(int index)
 {
-    emit signalSetRaces( races );
+    auto qmlPageNewHeroPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
+
+    //////////////////////////////////// RACE MODEL DATA //////////////////////////////
+    CMainMenuDataModel* classModelData = qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("classModelData"));
+
+    if( classModelData->at(index)->GetSelected() )
+    {
+        //This class has been already selected, so we unselect it.
+        m_selectedClass = "";
+        classModelData->at(index)->SetColor("light green");
+        classModelData->at(index)->SetSelected(false);
+    }
+    else
+    {
+        for(int i = 0; i < classModelData->size(); i++)
+        {
+            const char* color = classModelData->at(i)->GetEnabled() ?
+                        "light green" : "red";
+            classModelData->at(i)->SetColor(color);
+            classModelData->at(i)->SetSelected(false);
+            classModelData->update(i);
+        }
+        m_selectedRace = classModelData->at(index)->GetMenuText().toStdString();
+        classModelData->at(index)->SetColor("white");
+        classModelData->at(index)->SetSelected(true);
+    }
+    classModelData->update(index);
 }
 
-void PageNewHero::setClasses(QVariant classes)
+void PageNewHero::slotOnRaceInfoSelected(int index)
 {
-    emit signalSetClasses( classes );
+    auto qmlPageNewHeroPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
+    CMainMenuDataModel* raceModelData = qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("raceModelData"));
+    std::string selectedRaceName = raceModelData->at(index)->GetMenuText().toStdString();
+
+    QString selectedInfoText = Dependencies::GetInfoByRaceName(selectedRaceName).c_str();
+
+    emit signalSetRaceInfo(selectedInfoText);
 }
 
-void PageNewHero::setAbilities(QVariant abilities)
-{
-    emit signalSetAbilities( abilities );
-}

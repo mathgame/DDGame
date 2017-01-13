@@ -16,7 +16,8 @@ public:
         ValueRole,
         DescriptionRole,
         EnabledRole,
-        ColorRole
+        ColorRole,
+        SelectedRole,
     };
 
     CMainMenuDataModel(QObject *parent = 0);
@@ -31,13 +32,14 @@ public:
     Q_INVOKABLE int size() const;
 
     Q_INVOKABLE QVariantMap get(int row);
+    void update(int row);
     QHash<int, QByteArray> roleNames() const;
     QHash<int, QByteArray> makeRoleNames() const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
     void clear();
     CMainMenuItem* at(int iIndex);
-
+    int GetLastSelectedIndex() const;
     void DeleteItems();
 
 private:

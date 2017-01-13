@@ -28,6 +28,7 @@ QHash<int, QByteArray> CMainMenuDataModel::makeRoleNames() const
     roleNames[DescriptionRole] = "sDescription";
     roleNames[EnabledRole] = "bEnabled";
     roleNames[ColorRole] = "sColor";
+    roleNames[SelectedRole] = "bSelected";
     return roleNames;
 }
 
@@ -102,6 +103,12 @@ QVariantMap CMainMenuDataModel::get(int row)
     emit dataChanged(id, id);
 
     return res;
+}
+
+void CMainMenuDataModel::update(int row)
+{
+    QModelIndex id = createIndex(row, 0);
+    emit dataChanged(id, id);
 }
 
 bool CMainMenuDataModel::empty() const
