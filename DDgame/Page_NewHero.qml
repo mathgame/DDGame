@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import models 1.0
 
 Rectangle
 {
@@ -56,6 +57,12 @@ Rectangle
     }
 
 ///////////////////////////////// RACE FIELD ///////////////////////////
+    CMainMenuDataModel
+    {
+        id: raceModelData
+        objectName: "raceModelData"
+    }
+
     Component
     {
         id: contactDelegateRace
@@ -72,7 +79,7 @@ Rectangle
                 Text
                 {
                     anchors.centerIn: parent
-                    text: modelData.race
+                    text: model.sMenuText
                     color: "black";
                     font.pixelSize: 18
                 }
@@ -107,10 +114,17 @@ Rectangle
         height: 100
         cellWidth: 150
         cellHeight: 25
+        model: raceModelData
         delegate: contactDelegateRace
     }
 
 ///////////////////////////////// CLASS FIELD ///////////////////////////
+    CMainMenuDataModel
+    {
+        id: classModelData
+        objectName: "classModelData"
+    }
+
     Component
     {
         id: contactDelegateClass
@@ -127,7 +141,7 @@ Rectangle
                 Text
                 {
                     anchors.centerIn: parent
-                    text: modelData.class
+                    text: model.sMenuText
                     color: "black";
                     font.pixelSize: 18
                 }
@@ -163,10 +177,17 @@ Rectangle
         height: 100
         cellWidth: 150
         cellHeight: 25
+        model: classModelData
         delegate: contactDelegateClass
     }
 
-///////////////////////////////// ABILITIES FIELD ///////////////////////////
+/////////////////////////////////// ABILITIES FIELD ///////////////////////////
+    CMainMenuDataModel
+    {
+        id: abilitiesModelData
+        objectName: "abilitiesModelData"
+    }
+
     Component
     {
         id: contactDelegateAbilities
@@ -183,7 +204,7 @@ Rectangle
                 Text
                 {
                     anchors.centerIn: parent
-                    text: modelData.abilities
+                    text:  model.sMenuText
                     color: "black";
                     font.pixelSize: 18
                 }
@@ -209,6 +230,12 @@ Rectangle
         height: 100
         cellWidth: 150
         cellHeight: 25
+        model: abilitiesModelData
         delegate: contactDelegateAbilities
     }
 }
+
+
+
+
+

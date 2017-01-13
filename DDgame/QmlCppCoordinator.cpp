@@ -14,6 +14,8 @@
 #include "PageNewHero.h"
 #include "Dependencies.h"
 #include "QmlConfig.h"
+#include "ViewModel/MainMenuDataModel.h"
+#include "ViewModel/MainMenuItem.h"
 
 QQuickWindow* windowPtr = nullptr;
 QQmlApplicationEngine* enginePtr = nullptr;
@@ -31,6 +33,9 @@ void InitQmlCpp()
 {
     enginePtr = new QQmlApplicationEngine();
     enginePtr->load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    qmlRegisterType<CMainMenuDataModel>("models", 1, 0, "CMainMenuDataModel");
+
     windowPtr = qobject_cast<QQuickWindow*>(enginePtr->rootObjects().at(0));
 
     QQuickItem *root = windowPtr->contentItem();
@@ -56,31 +61,64 @@ void InitQmlCpp()
 
 void LoadQmlConfigurations()
 {
-    auto fillVariantMap = [](const std::string& keyName,
-        const QVariantList& stringList)
+    auto qmlPageNewHeroPtr = mapQmlCpp.at("Page_NewHero").QmlPtr;
+    CMainMenuDataModel* raceModelData =
+             qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("raceModelData"));
+
+    for( const auto& race :  QmlConfig::races)
     {
-        QVariantList variantMap;
-        for(const auto& str : stringList)
-        {
-            QVariantMap itemMap;
-            itemMap[keyName.c_str()] = str;
-            variantMap.push_back(itemMap);
-        }
-        return variantMap;
-    };
+        CMainMenuItem* menuItem = new CMainMenuItem();
+        menuItem->SetMenuText(race.toString());
+        menuItem->SetValue(true);
+        raceModelData->append(menuItem);
+    }
 
-    QVariantList racesMap = fillVariantMap("race", QmlConfig::races);
-    QVariantList classesMap = fillVariantMap("class", QmlConfig::classes);
-    QVariantList abilitiesMap = fillVariantMap("abilities", QmlConfig::abilities);
+    CMainMenuDataModel* classModelData =
+             qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("classModelData"));
 
-    auto cppPtr = mapQmlCpp.at("Page_NewHero").CppPtr;
-    dynamic_cast<PageNewHero*>(cppPtr)->setRaces( racesMap );
-    dynamic_cast<PageNewHero*>(cppPtr)->setClasses( classesMap );
-    dynamic_cast<PageNewHero*>(cppPtr)->setAbilities( abilitiesMap );
+    for( const auto& singleClass :  QmlConfig::classes)
+    {
+        CMainMenuItem* menuItem = new CMainMenuItem();
+        menuItem->SetMenuText(singleClass.toString());
+        menuItem->SetValue(true);
+        classModelData->append(menuItem);
+    }
+
+    CMainMenuDataModel* abilitiesModelData =
+             qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("abilitiesModelData"));
+
+    for( const auto& ability :  QmlConfig::abilities)
+    {
+        CMainMenuItem* menuItem = new CMainMenuItem();
+        menuItem->SetMenuText(ability.toString());
+        menuItem->SetValue(true);
+        abilitiesModelData->append(menuItem);
+    }
+
+
+//    auto fillVariantMap = [](const std::string& keyName,
+//        const QVariantList& stringList)
+//    {
+//        QVariantList variantMap;
+//        for(const auto& str : stringList)
+//        {
+//            QVariantMap itemMap;
+//            itemMap[keyName.c_str()] = str;
+//            variantMap.push_back(itemMap);
+//        }
+//        return variantMap;
+//    };
+//    QVariantList racesMap = fillVariantMap("race", QmlConfig::races);
+//    QVariantList classesMap = fillVariantMap("class", QmlConfig::classes);
+//    QVariantList abilitiesMap = fillVariantMap("abilities", QmlConfig::abilities);
+//    dynamic_cast<PageNewHero*>(cppPtr)->setRaces( racesMap );
+//    dynamic_cast<PageNewHero*>(cppPtr)->setClasses( classesMap );
+//    dynamic_cast<PageNewHero*>(cppPtr)->setAbilities( abilitiesMap );
 }
 
 void SetVisiblePage(const std::string& pageName)
 {
+    //TODO call all viewmodel objects clear functions before changing the page
     for(auto& iter : mapQmlCpp)
     {
         iter.second.CppPtr->setProperty("visible", false);
@@ -144,3 +182,4 @@ void ConnectSignals()
     QObject::connect(newHeroCppPtr, SIGNAL(signalSetAbilities(QVariant)),
                      newHeroQmlPtr, SIGNAL(signalSetAbilities(QVariant)));
 }
+

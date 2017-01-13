@@ -8,7 +8,10 @@ SOURCES += main.cpp \
     PageNewHero.cpp \
     PageStartScreen.cpp \
     QmlCppCoordinator.cpp \
-    Dependencies.cpp
+    Dependencies.cpp \
+    GridViewComponent.cpp \
+    ViewModel/MainMenuDataModel.cpp \
+    ViewModel/MainMenuItem.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,4 +29,7 @@ HEADERS += \
     PageStartScreen.h \
     QmlCppCoordinator.h \
     QmlConfig.h \
-    Dependencies.h
+    Dependencies.h \
+    GridViewComponent.h \
+    ViewModel/MainMenuDataModel.h \
+    ViewModel/MainMenuItem.h
