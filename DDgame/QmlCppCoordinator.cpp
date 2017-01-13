@@ -69,7 +69,8 @@ void LoadQmlConfigurations()
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
         menuItem->SetMenuText(race.toString());
-        menuItem->SetValue(true);
+        menuItem->SetEnabled(true);
+        menuItem->SetColor("light green");
         raceModelData->append(menuItem);
     }
 
@@ -80,7 +81,8 @@ void LoadQmlConfigurations()
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
         menuItem->SetMenuText(singleClass.toString());
-        menuItem->SetValue(true);
+        menuItem->SetEnabled(true);
+        menuItem->SetColor("red");
         classModelData->append(menuItem);
     }
 
@@ -91,7 +93,8 @@ void LoadQmlConfigurations()
     {
         CMainMenuItem* menuItem = new CMainMenuItem();
         menuItem->SetMenuText(ability.toString());
-        menuItem->SetValue(true);
+        menuItem->SetEnabled(false);
+        menuItem->SetColor("green");
         abilitiesModelData->append(menuItem);
     }
 

@@ -75,7 +75,8 @@ Rectangle
                 anchors.fill: parent
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
-                color: "light green"
+                enabled: model.bEnabled
+                color: model.sColor
                 Text
                 {
                     anchors.centerIn: parent
@@ -88,8 +89,7 @@ Rectangle
                     anchors.fill: parent
                     onClicked:
                     {
-                        console.log( modelData.race )
-                        signalOnRaceSelect( modelData.race )
+                        console.log( "race clicked" )
                     }
                 }
             }
@@ -137,7 +137,8 @@ Rectangle
                 anchors.fill: parent
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
-                color: "red"
+                enabled: model.bEnabled
+                color: model.sColor
                 Text
                 {
                     anchors.centerIn: parent
@@ -145,13 +146,13 @@ Rectangle
                     color: "black";
                     font.pixelSize: 18
                 }
+
                 MouseArea
                 {
                     anchors.fill: parent
                     onClicked:
                     {
-                        console.log( modelData.class )
-                        signalOnClassSelect( modelData.class )
+                            console.log( "class clicked" )
                     }
                 }
             }
@@ -200,13 +201,23 @@ Rectangle
                 anchors.fill: parent
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
-                color: "green"
+                enabled: model.bEnabled
+                color: model.sColor
                 Text
                 {
                     anchors.centerIn: parent
                     text:  model.sMenuText
                     color: "black";
                     font.pixelSize: 18
+                }
+
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        console.log( "abilities clicked" )
+                    }
                 }
             }
         }

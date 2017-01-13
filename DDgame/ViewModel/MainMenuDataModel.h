@@ -14,7 +14,9 @@ public:
     enum MenuItemRoles {
         TextRole = Qt::UserRole + 1,
         ValueRole,
-        DescriptionRole
+        DescriptionRole,
+        EnabledRole,
+        ColorRole
     };
 
     CMainMenuDataModel(QObject *parent = 0);

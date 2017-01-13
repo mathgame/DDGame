@@ -26,6 +26,8 @@ QHash<int, QByteArray> CMainMenuDataModel::makeRoleNames() const
     roleNames[TextRole] = "sMenuText";
     roleNames[ValueRole] = "iValue";
     roleNames[DescriptionRole] = "sDescription";
+    roleNames[EnabledRole] = "bEnabled";
+    roleNames[ColorRole] = "sColor";
     return roleNames;
 }
 
@@ -77,6 +79,8 @@ QVariant CMainMenuDataModel::data(const QModelIndex &index, int role) const
     if (role == TextRole) return itemData->GetMenuText();
     if (role == ValueRole) return itemData->GetValue();
     if (role == DescriptionRole) return itemData->GetDescriptionText();
+    if (role == EnabledRole) return itemData->GetEnabled();
+    if (role == ColorRole) return itemData->GetColor();
 
     return QVariant();
 }

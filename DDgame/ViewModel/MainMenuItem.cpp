@@ -2,9 +2,11 @@
 
 CMainMenuItem::CMainMenuItem(QObject *parent)
     : QObject(parent)
-    , m_sMenuText("Alabalanica")
+    , m_sMenuText("")
     , m_iValue(0)
     , m_sDescription("")
+    , m_bEnabled(false)
+    , m_sColor("white")
 {
 }
 
@@ -48,4 +50,26 @@ void CMainMenuItem::SetDescriptionText(const QString &sDescriptionText)
 QString CMainMenuItem::GetDescriptionText() const
 {
     return m_sDescription;
+}
+
+void CMainMenuItem::SetEnabled(bool value)
+{
+    m_bEnabled = value;
+    emit signalEnabledChanged();
+}
+
+bool CMainMenuItem::GetEnabled() const
+{
+    return m_bEnabled;
+}
+
+void CMainMenuItem::SetColor(const QString &sColor)
+{
+    m_sColor = sColor;
+    emit signalColorChanged();
+}
+
+QString CMainMenuItem::GetColor() const
+{
+    return m_sColor;
 }
