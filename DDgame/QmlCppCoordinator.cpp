@@ -164,11 +164,11 @@ void ConnectSignals()
     auto startScreenCppPtr = GetMapQmlCpp().at("Page_StartScreen").CppPtr;
     auto startScreenQmlPtr = GetMapQmlCpp().at("Page_StartScreen").QmlPtr;
 
-    QObject::connect(startScreenQmlPtr, SIGNAL(signalNewGame()),
-                     startScreenCppPtr, SLOT(slotNewGame()));
+    QObject::connect(startScreenQmlPtr, SIGNAL(signalSingleplayer()),
+                     startScreenCppPtr, SLOT(slotSingleplayer()));
 
-    QObject::connect(startScreenQmlPtr, SIGNAL(signalLoadGame()),
-                     startScreenCppPtr, SLOT(slotLoadGame()));
+    QObject::connect(startScreenQmlPtr, SIGNAL(signalMultiplayer()),
+                     startScreenCppPtr, SLOT(slotMultiplayer()));
 
 
     auto newHeroCppPtr = GetMapQmlCpp().at("Page_NewHero").CppPtr;
@@ -180,11 +180,11 @@ void ConnectSignals()
     QObject::connect(newHeroQmlPtr, SIGNAL(signalOnClassSelect(int)),
                      newHeroCppPtr, SLOT(slotOnClassSelected(int)));
 
-    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnRaceInfoSelect(int)),
-                     newHeroCppPtr, SLOT(slotOnRaceInfoSelected(int)));
+    QObject::connect(newHeroQmlPtr, SIGNAL(signalOnInfoFieldSelect(QString)),
+                     newHeroCppPtr, SLOT(slotInfoSelected(QString)));
 
-    QObject::connect(newHeroCppPtr, SIGNAL(signalSetRaceInfo(QString)),
-                     newHeroQmlPtr, SIGNAL(signalSetRaceInfo(QString)));
+    QObject::connect(newHeroCppPtr, SIGNAL(signalInfoSelect(QString)),
+                     newHeroQmlPtr, SIGNAL(signalSetInfoField(QString)));
 
 
 }

@@ -12,10 +12,10 @@ public slots:
     void slotOnClassSelected(int index);
 
 
-    void slotOnRaceInfoSelected(int index);
+    void slotInfoSelected(QString selectedFieldName);
 
 signals:
-    void signalSetRaceInfo(QString selectedRaceInfo);
+    void signalInfoSelect(QString selectedFieldInfo);
 
 public:
     PageNewHero();

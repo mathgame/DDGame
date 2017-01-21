@@ -7,10 +7,10 @@
 //TODO READ FROM CONFIG FILE - XML
 namespace QmlConfig
 {
-    static const std::vector<std::string> races = {"Human", "Orc", "Elf", "Dwarf", "Dark Elf"};
+    static const std::vector<std::string> races = {"Human", "Half Orc", "Dwarf", "Elf"};
 
-    static const std::vector<std::string> classes = {"Paladin", "Warrior", "Archer",
-            "Magician", "Druid", "Rogue", "Priest", "Warlock", "Elder"};
+    static const std::vector<std::string> classes = {"Fighter", "Ranger", "Paladin", "Thief",
+                                                      "Bard", "Priest", "Druid", "Wizard",  "Sorceress"};
 
     static const std::vector<std::string> abilities = {"Power Shot", "Power Arrow", "Power Ice",
                 "Power Fire", "LOL", "IMBA", "DONT PICK ME", "Newbie", "Trash",

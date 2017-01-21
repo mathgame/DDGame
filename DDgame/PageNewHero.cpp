@@ -104,14 +104,10 @@ void PageNewHero::slotOnClassSelected(int index)
     classModelData->update(index);
 }
 
-void PageNewHero::slotOnRaceInfoSelected(int index)
+void PageNewHero::slotInfoSelected(QString selectedFieldName)
 {
-    auto qmlPageNewHeroPtr = GetMapQmlCpp().at("Page_NewHero").QmlPtr;
-    CMainMenuDataModel* raceModelData = qobject_cast<CMainMenuDataModel*>(qmlPageNewHeroPtr->findChild<QObject*>("raceModelData"));
-    std::string selectedRaceName = raceModelData->at(index)->GetMenuText().toStdString();
+    QString infoField = Dependencies::GetInfoBySelectedField(selectedFieldName.toStdString()).c_str();
 
-    QString selectedInfoText = Dependencies::GetInfoByRaceName(selectedRaceName).c_str();
-
-    emit signalSetRaceInfo(selectedInfoText);
+    emit signalInfoSelect(infoField);
 }
 

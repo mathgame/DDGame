@@ -9,8 +9,8 @@ class PageStartScreen : public QObject
 {
     Q_OBJECT
 public slots:
-    void slotNewGame();
-    void slotLoadGame();
+    void slotSingleplayer();
+    void slotMultiplayer();
 
 public:
     PageStartScreen();

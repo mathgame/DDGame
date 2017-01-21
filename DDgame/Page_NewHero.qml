@@ -13,11 +13,11 @@ Rectangle
     signal signalOnRaceSelect(int index)
     signal signalOnClassSelect(int index)
 
-    signal signalOnRaceInfoSelect(int index)
-    signal signalSetRaceInfo(string selectedInfoRace)
-    onSignalSetRaceInfo:
+    signal signalOnInfoFieldSelect(string selectedFieldName)
+    signal signalSetInfoField(string selectedInfo)
+    onSignalSetInfoField:
     {
-        pageNewHeroId.selectedInfoText = selectedInfoRace
+        pageNewHeroId.selectedInfoText = selectedInfo
     }
 
 ///////////////////////////////// NAME INSERT FIELD ///////////////////////////
@@ -34,6 +34,8 @@ Rectangle
     {
         x: 234
         y: 84
+        border.color: "black"
+        border.width: 1
         width: 165
         height: 20
         color: "#f0d3d3"
@@ -44,7 +46,7 @@ Rectangle
             x: 5
             width: 165
             height: 20
-            font.pixelSize: 18
+            font.pixelSize: 16
         }
     }
 
@@ -88,8 +90,7 @@ Rectangle
                         }
                         if(mouse.button & Qt.RightButton)
                         {
-                            console.log("right button clicked")
-                            signalOnRaceInfoSelect(index)
+                            signalOnInfoFieldSelect( model.sMenuText )
                         }
                     }
 
@@ -151,10 +152,18 @@ Rectangle
 
                 MouseArea
                 {
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     anchors.fill: parent
                     onClicked:
                     {
-                         signalOnClassSelect(index)
+                        if(mouse.button & Qt.LeftButton)
+                        {
+                            signalOnClassSelect(index)
+                        }
+                        if(mouse.button & Qt.RightButton)
+                        {
+                            signalOnInfoFieldSelect( model.sMenuText )
+                        }
                     }
                 }
             }
@@ -215,10 +224,18 @@ Rectangle
 
                 MouseArea
                 {
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     anchors.fill: parent
                     onClicked:
                     {
-                        console.log( "abilities clicked" )
+                        if(mouse.button & Qt.LeftButton)
+                        {
+                            //signalOnClassSelect(index)
+                        }
+                        if(mouse.button & Qt.RightButton)
+                        {
+                            signalOnInfoFieldSelect( model.sMenuText )
+                        }
                     }
                 }
             }
@@ -256,6 +273,8 @@ Rectangle
         width: 300
         height: 380
         color: "yellow"
+        border.color: "black"
+        border.width: 2
         Text
         {
             id: textInfoField

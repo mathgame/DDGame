@@ -7,12 +7,12 @@ PageStartScreen::PageStartScreen()
 
 }
 
-void PageStartScreen::slotNewGame()
+void PageStartScreen::slotSingleplayer()
 {
     SetVisiblePage("Page_NewHero");
 }
 
-void PageStartScreen::slotLoadGame()
+void PageStartScreen::slotMultiplayer()
 {
     qDebug() << "Print from C++  void cppLoadGameSlot()";
 }
